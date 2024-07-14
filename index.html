@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple AI</title>
+</head>
+<body>
+    <h1>Simple AI</h1>
+    <h2>Teach</h2>
+    <form action="/teach" method="post">
+        <label for="sentence">Enter a sentence:</label>
+        <input type="text" id="sentence" name="sentence">
+        <button type="submit">Teach</button>
+    </form>
+
+    <h2>Ask</h2>
+    <form action="/ask" method="post">
+        <label for="question">Ask a question:</label>
+        <input type="text" id="question" name="question">
+        <button type="submit">Ask</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.querySelector('form[action="/teach"]').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch('/teach', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = data.status;
+            });
+        });
+
+        document.querySelector('form[action="/ask"]').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch('/ask', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = data.answer;
+            });
+        });
+    </script>
+</body>
+</html>
